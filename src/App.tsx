@@ -1,15 +1,19 @@
 import * as React from 'react';
-import { Route, Switch } from 'react-router-dom'
-import { Login } from './Login/Login';
-import { QuizMain } from './Quiz/QuizMain';
+import { Route, Switch, Redirect } from 'react-router-dom'
+import { Login } from './login/Login';
+import { QuizMain } from './quiz-main-view/QuizMain';
+import { HomeView } from './quiz-main-view/HomeView';
 
 class App extends React.Component {
   public render() {
     return (
-      <Switch>
-        <Route exact={true} path="/" component={Login}/>
-        <Route exact={true} path="/quiz-maker" component={QuizMain} />
-      </Switch>
+      <div>
+        <QuizMain/>
+        <Switch>
+          <Route exact path="/login" component={Login}/>
+          <Route exact path="/" component={HomeView} />
+        </Switch>
+      </div>
     );
   }
 }
