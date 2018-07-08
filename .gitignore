@@ -1,5 +1,11 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
+#idea
+.idea/vcs.xml
+.idea/workspace.xml
+
+
+
 # dependencies
 /node_modules
 
