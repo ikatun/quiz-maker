@@ -2,9 +2,16 @@ export class Quiz {
   public name: string;
   public questions:Array<IQuestions>;
   public class: string;
+
+  constructor() {
+    this.name = '';
+    this.questions = [];
+    this.class = '';
+  }
 }
 
 interface IQuestions {
+  index: number;
   question: string;
-  answer: string;
+  answers: Array<string>;
 }

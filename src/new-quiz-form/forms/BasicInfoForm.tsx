@@ -16,15 +16,17 @@ export class BasicInfoForm extends React.Component <IProps> {
 
     return (
       <Grid justify="center" container>
-        <form onSubmit={handleQuizName} style={{ width: '60%' }}>
+        <form onSubmit={handleQuizName} style={{ width: '35%' }}>
           <TextField
             fullWidth
+            autoComplete="off"
             name="name"
             value={quiz.name}
             onChange={handleQuizName}
             label="Quiz Name"
           />
           <TextField
+            autoComplete="off"
             fullWidth
             label="Class"
             name="class"

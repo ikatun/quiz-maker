@@ -1,78 +1,46 @@
-import { Button, Divider, Grid, TextField } from '@material-ui/core';
+import { Button, Divider, FormLabel, Grid, TextField } from '@material-ui/core';
 import * as React from 'react';
 
+
 import { Quiz } from '../Quiz';
+import { SingleAnswerQuestion } from './SingleAnswerQuestion'
+import { MultiAnswersQuestion } from './MultiAnswersQuestion';
+import { ExistingQuestions } from './ExistingQuestions';
 
 interface IProps {
   quiz: Quiz;
+  answers: Array<string>
 
   handleQuizQuestion(e: any): void;
 }
 
+interface IState {
+  multiAnswers: boolean;
+}
 
-export class QuestionsAndAnswersForm extends React.Component <IProps, any> {
+export class QuestionsAndAnswersForm extends React.Component <IProps, IState> {
+  public state: IState = {
+    multiAnswers: true,
+  }
 
   public render() {
-    const { quiz, handleQuizQuestion } = this.props;
+    const { quiz, handleQuizQuestion, answers } = this.props;
+    const { multiAnswers } = this.state;
     return (
       <Grid justify="center" container>
         <Grid container justify="center" item xs={12}>
-          <form onSubmit={handleQuizQuestion} style={{ width: '60%' }}>
-
-            <Grid item>
-              <TextField
-                fullWidth
-                label="Question"
-                name="question"
-                defaultValue=" "
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                fullWidth
-                label="Answer"
-                name="answer"
-                defaultValue=" "
-              />
-            </Grid>
-            <Button type="submit">Add Question</Button>
+          <form style={{ width: '35%' }}>
+            {multiAnswers ?
+              <MultiAnswersQuestion/>
+              :
+              <SingleAnswerQuestion/>
+            }
           </form>
         </Grid>
 
         <Divider/>
 
-        {quiz.questions.map((question, index) => (
-          <Grid
-            style={{ marginBottom: '2em' }}
-            key={index}
-            container
-            justify="center"
-            item
-            xs={12}
-          >
-            <form style={{ width: '60%', marginTop: '2em' }}>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Question"
-                  name="question"
-                  defaultValue={question.question}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Answer"
-                  name="answer"
-                  defaultValue={question.answer}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Button type="submit">Edit Question</Button>
-              </Grid>
-            </form>
-          </Grid>
-        ))}
+        <ExistingQuestions/>
       </Grid>
     );
   }

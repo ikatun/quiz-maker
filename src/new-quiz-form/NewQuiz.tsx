@@ -12,21 +12,21 @@ import { Quiz } from './Quiz';
 
 interface IState {
   activeStep: number;
+  index: number;
   quiz: Quiz;
+  answers: Array<string>;
 }
 
 export class NewQuiz extends React.Component<any, IState> {
   public state: IState = {
     activeStep: 0,
-    quiz: {
-      name: '',
-      questions: [],
-      class: '',
-    }
+    answers: [],
+    index: 1,
+    quiz: new Quiz(),
   };
 
   public render() {
-    const { activeStep, quiz } = this.state;
+    const { activeStep, quiz, answers } = this.state;
     const steps = getSteps();
 
     return (
@@ -34,7 +34,29 @@ export class NewQuiz extends React.Component<any, IState> {
         <Grid item xs={12}>
           <Steps activeStep={activeStep} steps={steps}/>
         </Grid>
-        <Grid className={textCenter} item xs={6}>
+        <Button style={{ margin: '1em 1em' }} variant="contained" color="primary" onClick={this.handleBack}>
+          Back
+        </Button>
+        {activeStep < 2 ?
+          <Button
+            type="submit"
+            style={{ margin: '1em 1em' }}
+            variant="contained"
+            color="primary"
+            onClick={this.handleNext}
+          >
+            Next
+          </Button>
+          :
+          <Button
+            style={{ margin: '1em 1em' }}
+            variant="contained"
+            color="primary"
+            onClick={this.handleSubmit}>
+            Finish
+          </Button>
+        }
+        <Grid className={textCenter} item xs={12}>
           {activeStep === 0 &&
           <BasicInfoForm
             quiz={quiz}
@@ -42,32 +64,16 @@ export class NewQuiz extends React.Component<any, IState> {
             handleQuizClass={this.handleQuizClass}
           />
           }
-          {activeStep === 1 && <QuestionsAndAnswersForm handleQuizQuestion={this.handleQuizQuestion} quiz={quiz}/>}
+          {activeStep === 1 &&
+          <QuestionsAndAnswersForm
+            answers={answers}
+            handleQuizQuestion={this.handleQuizQuestion}
+            quiz={quiz}
+          />
+          }
           {activeStep === 2 && <FinalStepForm/>}
         </Grid>
         <Grid className={textCenter} item xs={12}>
-          <Button style={{ margin: '1em 1em' }} variant="contained" color="primary" onClick={this.handleBack}>
-            Back
-          </Button>
-          {activeStep < 2 ?
-            <Button
-              type="submit"
-              style={{ margin: '1em 1em' }}
-              variant="contained"
-              color="primary"
-              onClick={this.handleNext}
-            >
-              Next
-            </Button>
-            :
-            <Button
-              style={{ margin: '1em 1em' }}
-              variant="contained"
-              color="primary"
-              onClick={this.handleSubmit}>
-              Finish
-            </Button>
-          }
         </Grid>
       </Grid>
     );
@@ -90,17 +96,19 @@ export class NewQuiz extends React.Component<any, IState> {
 
   public handleQuizQuestion = (e: any) => {
     e.preventDefault();
+    const { index, answers } = this.state;
     const question = e.target.question.value;
-    const answer = e.target.answer.value;
-
     const quiz = assign(this, this.state.quiz);
+    answers.push(e.target.answer.value);
     quiz.questions.push({
       question,
-      answer,
+      answers,
+      index,
     })
     e.target.question.value = '';
     e.target.answer.value = '';
-    this.setState({ quiz })
+    this.setState({ quiz });
+    this.setState({ index: index + 1 });
   }
 
   public handleNext = () => {
