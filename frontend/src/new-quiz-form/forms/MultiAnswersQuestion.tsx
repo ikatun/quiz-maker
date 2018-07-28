@@ -10,6 +10,7 @@ interface IProps {
 }
 
 export class MultiAnswersQuestion extends React.Component<IProps> {
+  private textInput: HTMLInputElement | null;
 
   public render() {
     const { answers, quiz, handleMultiAnswerQuestion } = this.props;
@@ -24,24 +25,13 @@ export class MultiAnswersQuestion extends React.Component<IProps> {
               style={{ color: 'red' }}
               autoComplete="off"
               fullWidth
+              autoFocus
+              inputRef={(ref) => this.textInput = ref}
               label="Question"
               name="question"
               defaultValue=" "
             />
           </Grid>
-          {
-            answers.map((answer) => (
-              <Grid item>
-                <TextField
-                  autoComplete="off"
-                  fullWidth
-                  label="Answer"
-                  name="answer"
-                  defaultValue={answer}
-                />
-              </Grid>
-            ))
-          }
           <Grid container item>
             <Grid item xs={10}>
               <TextField
@@ -58,10 +48,15 @@ export class MultiAnswersQuestion extends React.Component<IProps> {
           </Grid>
           <Grid item>
           </Grid>
-          <Button type="submit">Add Question</Button>
+          <Button onClick={this.focus} type="submit">Add Question</Button>
         </form>
       </Grid>
     );
+  }
+  public focus = () => {
+    if (this.textInput) {
+      this.textInput.focus();
+    }
   }
   public addAnswer = () => {
     this.setState(prevState => {

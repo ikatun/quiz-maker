@@ -8,7 +8,7 @@ import { getSteps } from './helperFunctions';
 import { BasicInfoForm } from './forms/BasicInfoForm';
 import { QuestionsAndAnswersForm } from './forms/QuestionsAndAnswersForm';
 import { FinalStepForm } from './forms/FinalStepForm';
-import { Quiz } from './Quiz';
+import { IQuestions, Quiz } from './Quiz';
 
 interface IState {
   activeStep: number;
@@ -106,7 +106,7 @@ export class NewQuiz extends React.Component<any, IState> {
     const { index } = this.state;
     const question = e.target.question.value;
     const answer: string = e.target.answer.value;
-    const quiz = assign(this, this.state.quiz);
+    const quiz = assign(this.state.quiz);
     const answers: Array<string> = [answer];
 
     quiz.questions.push({

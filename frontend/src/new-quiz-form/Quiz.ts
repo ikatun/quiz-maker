@@ -10,7 +10,7 @@ export class Quiz {
   }
 }
 
-interface IQuestions {
+export interface IQuestions {
   index: number;
   question: string;
   answers: Array<string>;

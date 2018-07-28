@@ -13,11 +13,11 @@ export class ExistingQuestions extends React.Component<IProps> {
     return (
       <Grid
         container
-        justify="center"
+        justify="space-around"
       >
         {quiz.questions.map((question, index) => (
-          <Grid key={index} container item xs={12} justify="center">
-            <form style={{ marginTop: '2em', width: '35%' }}>
+          <Grid key={index} container item xs={5} justify="center">
+            <form style={{ marginTop: '2em', width: '100%' }}>
               <Paper style={{ width: '100%', backgroundColor: 'gainsboro' }}>
                 <div className={css`padding: 15px;`}>
                   <Grid item xs={12}>
