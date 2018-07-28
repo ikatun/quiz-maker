@@ -1,8 +1,6 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 #idea
-frontend.idea/vcs.xml
-frontend.idea/workspace.xml
 frontend/.idea/*
 
 README.me
