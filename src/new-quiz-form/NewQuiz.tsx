@@ -67,7 +67,8 @@ export class NewQuiz extends React.Component<any, IState> {
           {activeStep === 1 &&
           <QuestionsAndAnswersForm
             answers={answers}
-            handleQuizQuestion={this.handleQuizQuestion}
+            handleMultiAnswerQuestion={this.handleMultiAnswerQuestion}
+            handleSingleAnswerQuestion={this.handleSingleAnswerQuestion}
             quiz={quiz}
           />
           }
@@ -94,12 +95,14 @@ export class NewQuiz extends React.Component<any, IState> {
     this.setState({ quiz })
   }
 
-  public handleQuizQuestion = (e: any) => {
+  public handleSingleAnswerQuestion = (e: any) => {
     e.preventDefault();
-    const { index, answers } = this.state;
+    const { index } = this.state;
     const question = e.target.question.value;
+    const answer: string = e.target.answer.value;
     const quiz = assign(this, this.state.quiz);
-    answers.push(e.target.answer.value);
+    const answers: Array<string> = [answer];
+
     quiz.questions.push({
       question,
       answers,
@@ -109,6 +112,9 @@ export class NewQuiz extends React.Component<any, IState> {
     e.target.answer.value = '';
     this.setState({ quiz });
     this.setState({ index: index + 1 });
+  }
+  public handleMultiAnswerQuestion = (e: any) => {
+    e.preventDefault();
   }
 
   public handleNext = () => {

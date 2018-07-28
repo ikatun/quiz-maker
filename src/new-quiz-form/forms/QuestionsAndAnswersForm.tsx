@@ -11,7 +11,8 @@ interface IProps {
   quiz: Quiz;
   answers: Array<string>
 
-  handleQuizQuestion(e: any): void;
+  handleMultiAnswerQuestion(e: any): void;
+  handleSingleAnswerQuestion(e: any): void;
 }
 
 interface IState {
@@ -24,23 +25,23 @@ export class QuestionsAndAnswersForm extends React.Component <IProps, IState> {
   }
 
   public render() {
-    const { quiz, handleQuizQuestion, answers } = this.props;
+    const { quiz, answers, handleSingleAnswerQuestion, handleMultiAnswerQuestion } = this.props;
     const { multiAnswers } = this.state;
     return (
       <Grid justify="center" container>
-        <Grid container justify="center" item xs={12}>
-          <form style={{ width: '35%' }}>
             {multiAnswers ?
-              <MultiAnswersQuestion/>
+              <MultiAnswersQuestion
+                answers={answers}
+                quiz={quiz}
+                handleMultiAnswerQuestion={handleMultiAnswerQuestion}
+              />
               :
-              <SingleAnswerQuestion/>
+              <SingleAnswerQuestion
+                handleSingleAnswerQuestion={handleSingleAnswerQuestion}
+              />
             }
-          </form>
-        </Grid>
-
         <Divider/>
-
-        <ExistingQuestions/>
+        <ExistingQuestions quiz={quiz}/>
       </Grid>
     );
   }

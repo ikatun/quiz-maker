@@ -1,26 +1,26 @@
 import * as React from 'react';
-import {Grid, FormLabel, TextField, Button} from '@material-ui/core'
+import { Grid, FormLabel, TextField, Button } from '@material-ui/core'
+import { Quiz } from '../Quiz';
 
+interface IProps {
+  quiz: Quiz;
+}
 
-export class ExistingQuestions extends React.Component {
+export class ExistingQuestions extends React.Component<IProps> {
   public render() {
+    const { quiz } = this.props;
     return (
-      <div>
+      <Grid
+        container
+        justify="center"
+      >
         {quiz.questions.map((question, index) => (
-
-          <Grid
-            style={{ marginBottom: '2em' }}
-            key={index}
-            container
-            justify="center"
-            item
-            xs={12}
-          >
-            <form style={{ width: '35%', marginTop: '2em' }}>
-              <Grid item>
+          <Grid container item xs={12} justify="center">
+            <form key={index} style={{ marginTop: '2em', width: '35%' }}>
+              <Grid item xs={12}>
                 <FormLabel>Question: {question.index}</FormLabel>
               </Grid>
-              <Grid item>
+              <Grid item xs={12}>
                 <TextField
                   fullWidth
                   autoComplete="off"
@@ -30,7 +30,7 @@ export class ExistingQuestions extends React.Component {
                 />
               </Grid>
               {question.answers.map((answer) => (
-                <Grid item>
+                <Grid item xs={12}>
                   <TextField
                     fullWidth
                     autoComplete="off"
@@ -45,7 +45,7 @@ export class ExistingQuestions extends React.Component {
             </form>
           </Grid>
         ))}
-      </div>
+      </Grid>
     );
   }
 }

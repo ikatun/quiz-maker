@@ -40,6 +40,9 @@ export class BasicInfoForm extends React.Component <IProps> {
             <MenuItem value="fizika">
               Fizika
             </MenuItem>
+            <MenuItem>
+              <Button style={{ width: '100%' }}>Add new class</Button>
+            </MenuItem>
           </TextField>
         </form>
       </Grid>
