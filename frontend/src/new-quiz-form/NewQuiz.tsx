@@ -34,7 +34,13 @@ export class NewQuiz extends React.Component<any, IState> {
         <Grid item xs={12}>
           <Steps activeStep={activeStep} steps={steps}/>
         </Grid>
-        <Button style={{ margin: '1em 1em' }} variant="contained" color="primary" onClick={this.handleBack}>
+        <Button
+          disabled={activeStep === 0}
+          style={{ margin: '1em 1em' }}
+          variant="contained"
+          color="primary"
+          onClick={this.handleBack}
+        >
           Back
         </Button>
         {activeStep < 2 ?

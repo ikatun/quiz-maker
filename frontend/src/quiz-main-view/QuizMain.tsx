@@ -8,7 +8,6 @@ import { textCenter } from '../shared/emotion/emotion';
 import { AppDrawer } from '../drawer/AppDrawer';
 import { NewQuiz } from '../new-quiz-form/NewQuiz';
 
-
 const titleStyle = css`
   :hover {
     cursor: pointer;

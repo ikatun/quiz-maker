@@ -21,7 +21,7 @@ interface IState {
 
 export class QuestionsAndAnswersForm extends React.Component <IProps, IState> {
   public state: IState = {
-    multiAnswers: true,
+    multiAnswers: false,
   }
 
   public render() {

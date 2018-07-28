@@ -16,17 +16,17 @@ export class AppDrawer extends React.Component <IProps> {
       <Drawer open={open} onClose={toggleDrawer} anchor="left">
         {!loggedIn ?
           <List>
-            <ListItem> <Button onClick={toggleLogin}>Log in</Button> </ListItem>
+            <ListItem> <Button fullWidth onClick={toggleLogin}>Log in</Button> </ListItem>
           </List>
           :
           <div>
             <List>
-              <ListItem> <Button>My quizzes</Button> </ListItem>
-              <ListItem> <Button>Test</Button> </ListItem>
+              <ListItem> <Button fullWidth >My quizzes</Button> </ListItem>
+              <ListItem> <Button fullWidth >Test</Button> </ListItem>
             </List>
             <Divider/>
             <List>
-              <ListItem> <Button onClick={toggleLogin}>Log out</Button> </ListItem>
+              <ListItem> <Button fullWidth onClick={toggleLogin}>Log out</Button> </ListItem>
             </List>
           </div>
 

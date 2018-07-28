@@ -9,18 +9,10 @@ interface IProps {
   handleMultiAnswerQuestion(e: any): void;
 }
 
-interface IState {
-  numberOfAnswers: Array<string>;
-}
-
-export class MultiAnswersQuestion extends React.Component<IProps, IState> {
-  public state: IState = {
-    numberOfAnswers: [],
-  }
+export class MultiAnswersQuestion extends React.Component<IProps> {
 
   public render() {
     const { answers, quiz, handleMultiAnswerQuestion } = this.props;
-    const { numberOfAnswers } = this.state;
     return (
       <Grid
         container
@@ -71,10 +63,10 @@ export class MultiAnswersQuestion extends React.Component<IProps, IState> {
       </Grid>
     );
   }
-/*  public addAnswer = () => {
-    this.setState({
-      numberOfAnswers: this.state.numberOfAnswers.push(1),
+  public addAnswer = () => {
+    this.setState(prevState => {
+      //
     });
-  }*/
+  }
 
 }

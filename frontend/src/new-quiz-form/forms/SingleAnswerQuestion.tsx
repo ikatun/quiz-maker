@@ -6,20 +6,26 @@ interface IProps {
 }
 
 export class SingleAnswerQuestion extends React.Component<IProps> {
+  private textInput: HTMLInputElement | null;
+
   public render() {
     const { handleSingleAnswerQuestion } = this.props;
     return (
-      <Grid container xs={12} justify="center">
+      <Grid container justify="center">
         <form onSubmit={handleSingleAnswerQuestion} style={{ width: '35%' }}>
           <Grid item>
             <TextField
               style={{ color: 'red' }}
+              autoFocus
+              inputRef={(ref) => this.textInput = ref}
               autoComplete="off"
               fullWidth
               label="Question"
               name="question"
-              defaultValue=" "
+              required
             />
+          </Grid>
+          <Grid item>
           </Grid>
           <Grid item>
             <TextField
@@ -27,12 +33,17 @@ export class SingleAnswerQuestion extends React.Component<IProps> {
               fullWidth
               label="Answer"
               name="answer"
-              defaultValue=" "
+              required
             />
           </Grid>
-          <Button type="submit">Add Question</Button>
+          <Button onClick={this.focus} type="submit">Add Question</Button>
         </form>
       </Grid>
     );
+  }
+  public focus = () => {
+    if (this.textInput) {
+      this.textInput.focus();
+    }
   }
 }
