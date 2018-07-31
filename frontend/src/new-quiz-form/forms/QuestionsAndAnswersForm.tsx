@@ -1,34 +1,34 @@
 import { Divider, Grid } from '@material-ui/core';
 import * as React from 'react';
+import { observer, inject } from 'mobx-react';
 
-
-import { Quiz } from '../Quiz';
+import { IQuizStore } from '../../QuizStore';
 import { SingleAnswerQuestion } from './SingleAnswerQuestion'
 import { MultiAnswersQuestion } from './MultiAnswersQuestion';
 import { ExistingQuestions } from './ExistingQuestions';
 
 interface IProps {
-  quiz: Quiz;
-  answers: Array<string>
-
-  handleMultiAnswerQuestion(e: any): void;
-  handleSingleAnswerQuestion(e: any): void;
+  QuizStore?: IQuizStore
 }
 
 interface IState {
   multiAnswers: boolean;
   message: string;
 }
-
+@inject('QuizStore')
+@observer
 export class QuestionsAndAnswersForm extends React.Component <IProps, IState> {
   public state: IState = {
-    multiAnswers: false,
+    multiAnswers: true,
     message: '',
   }
 
   public render() {
-    const { quiz, answers, handleSingleAnswerQuestion, handleMultiAnswerQuestion } = this.props;
+    const { QuizStore } = this.props;
     const { multiAnswers } = this.state;
+    if(!QuizStore) {
+      return null;
+    }
     return (
       <Grid
         justify="center"
@@ -37,17 +37,13 @@ export class QuestionsAndAnswersForm extends React.Component <IProps, IState> {
       >
             {multiAnswers ?
               <MultiAnswersQuestion
-                answers={answers}
-                quiz={quiz}
-                handleMultiAnswerQuestion={handleMultiAnswerQuestion}
               />
               :
               <SingleAnswerQuestion
-                handleSingleAnswerQuestion={handleSingleAnswerQuestion}
               />
             }
         <Divider/>
-        <ExistingQuestions quiz={quiz}/>
+        <ExistingQuestions />
       </Grid>
     );
   }

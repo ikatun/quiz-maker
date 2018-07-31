@@ -1,7 +1,10 @@
+import { action, computed, observable } from 'mobx';
+
+
 export class Quiz {
-  public name: string;
-  public questions:Array<IQuestions>;
-  public class: string;
+  @observable public name: string;
+  @observable public questions:Array<IQuestions>;
+  @observable public class: string;
 
   constructor() {
     this.name = '';

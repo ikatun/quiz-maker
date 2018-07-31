@@ -1,25 +1,36 @@
-import { Button, FormLabel, Grid, TextField } from '@material-ui/core';
+import { Button, Grid, TextField } from '@material-ui/core';
+import { inject, observer } from 'mobx-react';
 import * as React from 'react';
-import { Quiz } from '../Quiz';
+import { IQuizStore } from '../../QuizStore';
 
 interface IProps {
-  quiz: Quiz;
-  answers: Array<string>;
-
-  handleMultiAnswerQuestion(e: any): void;
+  QuizStore?: IQuizStore
+}
+interface IState {
+  answers:  undefined;
 }
 
-export class MultiAnswersQuestion extends React.Component<IProps> {
+@inject('QuizStore')
+@observer
+export class MultiAnswersQuestion extends React.Component<IProps, IState> {
+  public state: IState = {
+    answers: undefined,
+  }
   private textInput: HTMLInputElement | null;
 
   public render() {
-    const { answers, quiz, handleMultiAnswerQuestion } = this.props;
+    const { answers } = this.state;
+    const { QuizStore } = this.props;
+    if(!QuizStore) {
+      return null;
+    }
+    const { quiz } = QuizStore;
     return (
       <Grid
         container
         justify="center"
       >
-        <form onSubmit={handleMultiAnswerQuestion} style={{ width: '35%' }}>
+        <form onSubmit={this.handleSubmit} style={{ width: '35%' }}>
           <Grid item>
             <TextField
               style={{ color: 'red' }}
@@ -41,6 +52,9 @@ export class MultiAnswersQuestion extends React.Component<IProps> {
                 name="answer"
                 defaultValue=" "
               />
+              {
+
+              }
             </Grid>
             <Grid item xs={2}>
               <Button style={{ marginTop: '12px' }}>Add</Button>
@@ -58,10 +72,8 @@ export class MultiAnswersQuestion extends React.Component<IProps> {
       this.textInput.focus();
     }
   }
-  public addAnswer = () => {
-    this.setState(prevState => {
-      //
-    });
+  public handleSubmit = () => {
+    //
   }
 
 }

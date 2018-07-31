@@ -1,15 +1,23 @@
 import { css } from 'emotion';
 import * as React from 'react';
 import { Grid, FormLabel, TextField, Button, Paper } from '@material-ui/core'
-import { Quiz } from '../Quiz';
+import {inject, observer} from 'mobx-react';
+
+import { IQuizStore } from '../../QuizStore';
 
 interface IProps {
-  quiz: Quiz;
+  QuizStore?: IQuizStore
 }
-
+@inject('QuizStore')
+@observer
 export class ExistingQuestions extends React.Component<IProps> {
   public render() {
-    const { quiz } = this.props;
+    const { QuizStore } = this.props;
+    if(!QuizStore) {
+      return null;
+    }
+    const { quiz } = QuizStore;
+    console.log('Quiz from existing questions', quiz);
     return (
       <Grid
         container

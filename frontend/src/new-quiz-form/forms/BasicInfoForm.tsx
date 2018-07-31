@@ -1,28 +1,32 @@
+import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { TextField, Grid, MenuItem, Button } from '@material-ui/core';
+import { IQuizStore } from '../../QuizStore';
 
-import { Quiz } from '../Quiz';
 
 interface IProps {
-  quiz: Quiz;
-
-  handleQuizName(e: any): void;
-  handleQuizClass(e:any): void;
+  QuizStore?: IQuizStore
 }
 
-export class BasicInfoForm extends React.Component <IProps> {
+@inject('QuizStore')
+@observer
+export class BasicInfoForm extends React.Component<IProps> {
   public render() {
-    const { quiz, handleQuizName, handleQuizClass } = this.props;
+    const { QuizStore } = this.props;
+    if(!QuizStore) {
+      return null;
+    }
+    const { quiz } = QuizStore;
 
     return (
       <Grid justify="center" container>
-        <form onSubmit={handleQuizName} style={{ width: '35%' }}>
+        <form onSubmit={this.handleQuizName} style={{ width: '35%' }}>
           <TextField
             fullWidth
             autoComplete="off"
             name="name"
             value={quiz.name}
-            onChange={handleQuizName}
+            onChange={this.handleQuizName}
             label="Quiz Name"
           />
           <TextField
@@ -32,7 +36,7 @@ export class BasicInfoForm extends React.Component <IProps> {
             name="class"
             select
             value={quiz.class}
-            onChange={handleQuizClass}
+            onChange={this.handleQuizClass}
           >
             <MenuItem value="mat2">
               Mat2
@@ -48,4 +52,13 @@ export class BasicInfoForm extends React.Component <IProps> {
       </Grid>
     );
   }
+  public handleQuizName = (e: any) => {
+    const { QuizStore } = this.props;
+    QuizStore!.quiz.name = e.target.value;
+  }
+  public handleQuizClass = (e: any) => {
+    const { QuizStore } = this.props;
+    QuizStore!.quiz.class = e.target.value;
+  }
+
 }
