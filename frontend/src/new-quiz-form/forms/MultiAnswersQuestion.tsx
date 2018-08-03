@@ -1,6 +1,8 @@
 import { Button, Grid, TextField } from '@material-ui/core';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
+import { range } from 'lodash';
+
 import { IQuizStore } from '../../QuizStore';
 
 interface IProps {
@@ -8,6 +10,7 @@ interface IProps {
 }
 interface IState {
   answers:  undefined;
+  numberOfAnswers: number;
 }
 
 @inject('QuizStore')
@@ -15,6 +18,7 @@ interface IState {
 export class MultiAnswersQuestion extends React.Component<IProps, IState> {
   public state: IState = {
     answers: undefined,
+    numberOfAnswers: 1,
   }
   private textInput: HTMLInputElement | null;
 
@@ -25,6 +29,8 @@ export class MultiAnswersQuestion extends React.Component<IProps, IState> {
       return null;
     }
     const { quiz } = QuizStore;
+    const { numberOfAnswers } = this.state;
+    const numberOfInputs = range(0, numberOfAnswers);
     return (
       <Grid
         container
@@ -45,19 +51,20 @@ export class MultiAnswersQuestion extends React.Component<IProps, IState> {
           </Grid>
           <Grid container item>
             <Grid item xs={10}>
-              <TextField
-                autoComplete="off"
-                fullWidth
-                label="Answer"
-                name="answer"
-                defaultValue=" "
-              />
-              {
-
+              {numberOfInputs.map((a, index) => (
+                <TextField
+                  key={index}
+                  autoComplete="off"
+                  fullWidth
+                  label={`Answer ${a + 1}`}
+                  name={`answer${a+1}`}
+                  defaultValue=" "
+                />
+              ))
               }
             </Grid>
             <Grid item xs={2}>
-              <Button style={{ marginTop: '12px' }}>Add</Button>
+              <Button onClick={this.addAnswerInput} style={{ marginTop: '12px' }}>Add</Button>
             </Grid>
           </Grid>
           <Grid item>
@@ -67,12 +74,15 @@ export class MultiAnswersQuestion extends React.Component<IProps, IState> {
       </Grid>
     );
   }
+  public addAnswerInput = () => {
+    this.setState({ numberOfAnswers: this.state.numberOfAnswers + 1 })
+  }
   public focus = () => {
     if (this.textInput) {
       this.textInput.focus();
     }
   }
-  public handleSubmit = () => {
+  public handleSubmit = (event: any) => {
     //
   }
 

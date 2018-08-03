@@ -61,6 +61,7 @@ export class NewQuiz extends React.Component<any, IState> {
           }
           {activeStep === 1 &&
           <QuestionsAndAnswersForm
+
           />
           }
           {activeStep === 2 && <FinalStepForm/>}
