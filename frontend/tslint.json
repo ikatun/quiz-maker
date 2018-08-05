@@ -5,7 +5,8 @@
     "object-literal-sort-keys": false,
     "max-line-length": [true, 120],
     "array-type": [true, "generic"],
-    "no-console": false
+    "no-console": false,
+    "no-shadowed-variable": false
   },
   "jsRules":{
     "object-literal-sort-keys": false

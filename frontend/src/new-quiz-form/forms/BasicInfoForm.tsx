@@ -1,11 +1,11 @@
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { TextField, Grid, MenuItem, Button } from '@material-ui/core';
-import { IQuizStore } from '../../QuizStore';
+import { QuizStore } from '../../QuizStore';
 
 
 interface IProps {
-  QuizStore?: IQuizStore
+  QuizStore?: QuizStore
 }
 
 @inject('QuizStore')

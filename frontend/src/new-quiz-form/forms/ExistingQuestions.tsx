@@ -3,10 +3,10 @@ import * as React from 'react';
 import { Grid, FormLabel, TextField, Button, Paper } from '@material-ui/core'
 import {inject, observer} from 'mobx-react';
 
-import { IQuizStore } from '../../QuizStore';
+import { QuizStore } from '../../QuizStore';
 
 interface IProps {
-  QuizStore?: IQuizStore
+  QuizStore?: QuizStore
 }
 @inject('QuizStore')
 @observer
@@ -17,7 +17,6 @@ export class ExistingQuestions extends React.Component<IProps> {
       return null;
     }
     const { quiz } = QuizStore;
-    console.log('Quiz from existing questions', quiz);
     return (
       <Grid
         container
@@ -29,30 +28,33 @@ export class ExistingQuestions extends React.Component<IProps> {
               <Paper style={{ width: '100%', backgroundColor: 'gainsboro' }}>
                 <div className={css`padding: 15px;`}>
                   <Grid item xs={12}>
-                    <FormLabel>Question: {question.index}</FormLabel>
+                    <FormLabel>Question: {index + 1}</FormLabel>
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
                       fullWidth
+                      disabled
                       autoComplete="off"
                       label="Question"
                       name="question"
                       defaultValue={question.question}
                     />
                   </Grid>
-                  {question.answers.map((answer) => (
+                  {question.answers.map((answer, index) => (
                     <Grid key={answer} item xs={12}>
                       <TextField
+                        className={css`margin-top: 5px !important;`}
                         fullWidth
+                        disabled
                         autoComplete="off"
-                        label="Answer"
+                        label={`Answer ${index + 1}`}
                         name="answer"
                         defaultValue={answer}
                       />
                     </Grid>
                   ))
                   }
-                  <Button type="submit">Edit Question</Button>
+                  <Button>Edit Question</Button>
                 </div>
               </Paper>
             </form>

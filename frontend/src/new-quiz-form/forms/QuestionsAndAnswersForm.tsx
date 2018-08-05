@@ -35,7 +35,7 @@ export class QuestionsAndAnswersForm extends React.Component <any, IState> {
               />
             }
         <Divider/>
-        <ExistingQuestions />
+        <ExistingQuestions/>
       </Grid>
     );
   }

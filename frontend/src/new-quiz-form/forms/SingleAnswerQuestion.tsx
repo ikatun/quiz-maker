@@ -2,11 +2,10 @@ import { Button, Grid, TextField } from '@material-ui/core';
 import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 
-import { IQuizStore } from '../../QuizStore';
-import { Quiz } from '../Quiz';
+import { QuizStore } from '../../QuizStore';
 
 interface IProps {
-  QuizStore?: IQuizStore;
+  QuizStore?: QuizStore;
 }
 
 @inject('QuizStore')
@@ -19,7 +18,7 @@ export class SingleAnswerQuestion extends React.Component<IProps> {
     if (!QuizStore) {
       return null;
     }
-
+    console.log('QuizStore: ', QuizStore);
     return (
       <Grid container justify="center">
         <form onSubmit={this.handleSubmit} style={{ width: '35%' }}>
@@ -56,7 +55,6 @@ export class SingleAnswerQuestion extends React.Component<IProps> {
     event.preventDefault();
     const answers = [event.target.answer.value];
     this.props.QuizStore!.addQuestion(event.target.question.value, answers);
-    this.props.QuizStore!.quiz.questions.forEach((q) => console.log('asnwers: ', q.answers));
     event.target.question.value = '';
     event.target.answer.value = '';
   }

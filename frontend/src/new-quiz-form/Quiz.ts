@@ -1,4 +1,4 @@
-import { action, computed, observable } from 'mobx';
+import { observable } from 'mobx';
 
 
 export class Quiz {
@@ -14,7 +14,6 @@ export class Quiz {
 }
 
 export interface IQuestions {
-  index: number;
   question: string;
   answers: Array<string>;
 }

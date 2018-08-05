@@ -1,15 +1,16 @@
 import { Button, Grid, TextField } from '@material-ui/core';
+import { css } from 'emotion';
 import { inject, observer } from 'mobx-react';
 import * as React from 'react';
 import { range } from 'lodash';
 
-import { IQuizStore } from '../../QuizStore';
+import { QuizStore } from '../../QuizStore';
 
 interface IProps {
-  QuizStore?: IQuizStore
+  QuizStore?: QuizStore
 }
+
 interface IState {
-  answers:  undefined;
   numberOfAnswers: number;
 }
 
@@ -17,18 +18,15 @@ interface IState {
 @observer
 export class MultiAnswersQuestion extends React.Component<IProps, IState> {
   public state: IState = {
-    answers: undefined,
     numberOfAnswers: 1,
   }
   private textInput: HTMLInputElement | null;
 
   public render() {
-    const { answers } = this.state;
     const { QuizStore } = this.props;
-    if(!QuizStore) {
+    if (!QuizStore) {
       return null;
     }
-    const { quiz } = QuizStore;
     const { numberOfAnswers } = this.state;
     const numberOfInputs = range(0, numberOfAnswers);
     return (
@@ -53,12 +51,13 @@ export class MultiAnswersQuestion extends React.Component<IProps, IState> {
             <Grid item xs={10}>
               {numberOfInputs.map((a, index) => (
                 <TextField
+                  className={css`margin-top: 5px !important;`}
                   key={index}
                   autoComplete="off"
                   fullWidth
                   label={`Answer ${a + 1}`}
-                  name={`answer${a+1}`}
-                  defaultValue=" "
+                  name={`answer${a + 1}`}
+                  defaultValue=""
                 />
               ))
               }
@@ -74,6 +73,7 @@ export class MultiAnswersQuestion extends React.Component<IProps, IState> {
       </Grid>
     );
   }
+
   public addAnswerInput = () => {
     this.setState({ numberOfAnswers: this.state.numberOfAnswers + 1 })
   }
@@ -83,7 +83,20 @@ export class MultiAnswersQuestion extends React.Component<IProps, IState> {
     }
   }
   public handleSubmit = (event: any) => {
-    //
-  }
+    event.preventDefault();
 
+    const answers: Array<string> = [];
+
+    for (let i = 0; i < this.state.numberOfAnswers; i++) {
+      const answer = (document.getElementsByName(`answer${i + 1}`)[0] as HTMLInputElement).value;
+      if (answer) {
+        answers.push(answer);
+      }
+    }
+    this.props.QuizStore!.addQuestion(event.target.question.value, answers);
+    this.setState({ numberOfAnswers: 1 });
+
+    event.target.question.value = '';
+    event.target.answer1.value = '';
+  }
 }
