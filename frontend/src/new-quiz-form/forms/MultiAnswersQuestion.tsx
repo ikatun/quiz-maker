@@ -11,24 +11,25 @@ interface IProps {
 }
 
 interface IState {
-  numberOfAnswers: number;
+  answers: Array<string>;
+  question: string;
 }
 
 @inject('QuizStore')
 @observer
 export class MultiAnswersQuestion extends React.Component<IProps, IState> {
   public state: IState = {
-    numberOfAnswers: 1,
+    answers: [''],
+    question: '',
   }
-  private textInput: HTMLInputElement | null;
 
   public render() {
     const { QuizStore } = this.props;
     if (!QuizStore) {
-      return null;
+      throw new Error('Missing quiz store!');
     }
-    const { numberOfAnswers } = this.state;
-    const numberOfInputs = range(0, numberOfAnswers);
+
+    const { answers, question } = this.state;
     return (
       <Grid
         container
@@ -41,23 +42,26 @@ export class MultiAnswersQuestion extends React.Component<IProps, IState> {
               autoComplete="off"
               fullWidth
               autoFocus
-              inputRef={(ref) => this.textInput = ref}
               label="Question"
-              name="question"
-              defaultValue=" "
+              value={question}
+              onChange={event => this.setState({ question: event.target.value })}
             />
           </Grid>
           <Grid container item>
             <Grid item xs={10}>
-              {numberOfInputs.map((a, index) => (
+              {answers.map((answer, index) => (
                 <TextField
                   className={css`margin-top: 5px !important;`}
                   key={index}
                   autoComplete="off"
                   fullWidth
                   label={`Answer ${a + 1}`}
-                  name={`answer${a + 1}`}
-                  defaultValue=""
+                  value={answer}
+                  onChange={event => {
+                    const answers2 = [...this.state.answers];
+                    answers2[index] = event.target.value;
+                    this.setState({ answers: answers2 })
+                  }
                 />
               ))
               }
@@ -75,7 +79,7 @@ export class MultiAnswersQuestion extends React.Component<IProps, IState> {
   }
 
   public addAnswerInput = () => {
-    this.setState({ numberOfAnswers: this.state.numberOfAnswers + 1 })
+    this.setState({ answers: this.state.answers.concat(['']) });
   }
   public focus = () => {
     if (this.textInput) {
@@ -84,19 +88,8 @@ export class MultiAnswersQuestion extends React.Component<IProps, IState> {
   }
   public handleSubmit = (event: any) => {
     event.preventDefault();
-
-    const answers: Array<string> = [];
-
-    for (let i = 0; i < this.state.numberOfAnswers; i++) {
-      const answer = (document.getElementsByName(`answer${i + 1}`)[0] as HTMLInputElement).value;
-      if (answer) {
-        answers.push(answer);
-      }
-    }
-    this.props.QuizStore!.addQuestion(event.target.question.value, answers);
-    this.setState({ numberOfAnswers: 1 });
-
-    event.target.question.value = '';
-    event.target.answer1.value = '';
+    const { question, answers } = this.state;
+    this.props.QuizStore!.addQuestion(question, answers);
+    this.setState({ question: '', answers: [''] });
   }
 }
